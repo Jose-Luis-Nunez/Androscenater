@@ -1,0 +1,150 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    ext.android_gradle_plugin = '3.6.0-rc1'
+    ext.androidx_test_version = '1.2.0'
+    ext.arch_core_testing_version = '2.0.0'
+    ext.espresso_version = '3.2.0'
+    ext.ext_junit = '1.1.1'
+    ext.fragment_version = '1.2.0-alpha04'
+    ext.hamcrest_version = '1.3'
+    ext.jacoco_version = '0.8.4'
+    ext.json_test_version = '20180130'
+    ext.junit_version = '4.12'
+    ext.koin_version = '2.0.1'
+    ext.kotlin_version = '1.3.50'
+    ext.lifecycle_version = '2.0.0'
+    ext.mockito_version = '2.24.0'
+    ext.orchestrator_version = '1.2.0'
+    ext.uiautomator_version = '2.2.0'
+    ext.robolectric_version = '4.3'
+    ext.rxandroid_version = '2.1.1'
+    ext.truth_version = '0.45'
+    ext.fladle_version = '0.6.4'
+    ext.lint_version = '26.6.0-beta04'
+    ext.kotlin_version = '1.3.50'
+    repositories {
+        google()
+        jcenter()
+
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.6.0-rc01'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath("org.jetbrains.kotlin:kotlin-allopen:$kotlin_version")
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+subprojects {
+
+    afterEvaluate { project ->
+        if (project.plugins.findPlugin('android') ?: project.plugins.findPlugin('android-library')) {
+
+//            tasks.withType(Test) {
+//                jacoco.includeNoLocationClasses = true
+//            }
+//
+//            task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
+//
+//                reports {
+//                    xml.enabled = true
+//                    html.enabled = true
+//                }
+//
+//                def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
+//                def debugTree = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/debug", excludes: fileFilter)
+//                def mainSrc = "${project.projectDir}/src/main/kotlin"
+//
+//                sourceDirectories.from = files([mainSrc])
+//                classDirectories.from = files([debugTree])
+//                executionData.from = fileTree(dir: "$buildDir", includes: [
+//                        "jacoco/debugUnitTest.exec",
+//                        "outputs/code-coverage/connected/*coverage.ec"
+//                ])
+//            }
+            android {
+                compileSdkVersion 29
+
+                packagingOptions {
+                    pickFirst 'mockito-extensions/org.mockito.plugins.MockMaker'
+                }
+
+                dataBinding {
+                    enabled = true
+                    enabledForTests = true
+                }
+
+                defaultConfig {
+                    minSdkVersion 21
+                    targetSdkVersion 29
+                    versionCode = Integer.valueOf(System.env.VERSION_NUMBER ?: 1)
+                    versionName "1.10." + versionCode
+                    testInstrumentationRunner "com.example.testingapp.testing.ui.AppAndroidJUnitRunner"
+                    // The following argument makes the Android Test Orchestrator run its
+                    // "pm clear" command after each test invocation. This command ensures
+                    // that the app's state is completely cleared between tests.
+                    testInstrumentationRunnerArguments clearPackageData: 'true'
+                }
+
+                buildTypes {
+                    debug {
+                        debuggable true
+                    }
+                    release {
+                        minifyEnabled false
+                        proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+                    }
+                }
+
+                testOptions {
+                    animationsDisabled true
+                    execution 'ANDROIDX_TEST_ORCHESTRATOR'
+                    unitTests {
+                        returnDefaultValues = true
+                        includeAndroidResources = true
+                    }
+                }
+
+                compileOptions {
+                    sourceCompatibility JavaVersion.VERSION_1_8
+                    targetCompatibility JavaVersion.VERSION_1_8
+                }
+
+                kotlinOptions {
+                    jvmTarget = "1.8"
+                    allWarningsAsErrors = true
+                }
+
+                sourceSets {
+                    String sharedTestDir = "${projectDir}/src/sharedTest/kotlin"
+                    main.java.srcDirs += "${projectDir}/src/main/kotlin"
+                    androidTest {
+                        java.srcDirs += "${projectDir}/src/androidTest/kotlin"
+                        java.srcDirs += sharedTestDir
+                    }
+                }
+            }
+
+//            detekt {
+//                config = files("$rootDir/default-detekt-config.yml")
+//            }
+        }
+        allOpen {
+            annotation("com.example.testingapp.OpenForTest")
+        }
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

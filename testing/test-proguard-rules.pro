@@ -1,0 +1,4 @@
+-include proguard-rules.pro
+-dontshrink
+-dontoptimize
+-dontpreverify

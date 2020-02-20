@@ -1,0 +1,48 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'jacoco'
+    id 'kotlin-allopen'
+}
+
+
+android {
+
+}
+
+dependencies {
+    api "org.koin:koin-test:$koin_version"
+    api "org.koin:koin-androidx-viewmodel:$koin_version"
+    api "org.hamcrest:hamcrest-library:$hamcrest_version"
+    api "androidx.test.ext:junit:$ext_junit"
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    api "androidx.test.uiautomator:uiautomator:$uiautomator_version"
+    api "androidx.arch.core:core-testing:$arch_core_testing_version"
+
+
+    api "com.google.truth:truth:$truth_version"
+
+    // Espresso
+    api "androidx.test.espresso:espresso-core:$espresso_version"
+    api "androidx.test.espresso:espresso-intents:$espresso_version"
+    api "androidx.test.espresso:espresso-contrib:$espresso_version"
+
+    // Once https://issuetracker.google.com/127986458 is fixed this can be api
+    implementation("androidx.fragment:fragment-testing:$fragment_version") {
+        exclude group: 'androidx.test', module: 'core'
+    }
+    implementation "androidx.test:core:$androidx_test_version"
+    implementation "androidx.test.espresso:espresso-idling-resource:$espresso_version"
+
+    implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
+
+    // AndroidJUnitRunner and JUnit Rules
+    api "androidx.test:runner:$androidx_test_version"
+    api "androidx.test:rules:$androidx_test_version"
+    api "androidx.test:core:$androidx_test_version"
+
+    // unit test
+    api "org.mockito:mockito-core:$mockito_version"
+    implementation group: 'org.jetbrains.kotlin', name: 'kotlin-reflect', version: kotlin_version
+}
