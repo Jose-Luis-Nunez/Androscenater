@@ -6,7 +6,69 @@ apply plugin: 'kotlin-allopen'
 apply from: '../testing_dependencies.gradle'
 
 android {
+    compileSdkVersion 29
 
+    packagingOptions {
+        pickFirst 'mockito-extensions/org.mockito.plugins.MockMaker'
+    }
+
+    dataBinding {
+        enabled = true
+        enabledForTests = true
+    }
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode = Integer.valueOf(System.env.VERSION_NUMBER ?: 1)
+        versionName "1.10." + versionCode
+        testInstrumentationRunner "com.example.testingapp.testing.ui.AppAndroidJUnitRunner"
+        // The following argument makes the Android Test Orchestrator run its
+        // "pm clear" command after each test invocation. This command ensures
+        // that the app's state is completely cleared between tests.
+        testInstrumentationRunnerArguments clearPackageData: 'true'
+    }
+
+    buildTypes {
+        debug {
+            debuggable true
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    testOptions {
+        animationsDisabled true
+        execution 'ANDROIDX_TEST_ORCHESTRATOR'
+        unitTests {
+            returnDefaultValues = true
+            includeAndroidResources = true
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+        allWarningsAsErrors = true
+    }
+
+    sourceSets {
+        String sharedTestDir = "${projectDir}/src/sharedTest/kotlin"
+        main.java.srcDirs += "${projectDir}/src/main/kotlin"
+        androidTest {
+            java.srcDirs += "${projectDir}/src/androidTest/kotlin"
+            java.srcDirs += sharedTestDir
+        }
+    }
+}
+allOpen {
+    annotation("com.example.testingapp.OpenForTest")
 }
 
 dependencies {
