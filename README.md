@@ -25,9 +25,26 @@ You can then add the library as a gradle dependency.
 androidTestImplementation 'com.github.Jose-Luis-Nunez:Android-Ui-Tester:1.0'
 ````
 
-Or you can copy the testing folder to your project and add all the necessary import to your gradle file. It is the easiest to apply the already prepared gradle file:
+If you don't want to add all the necessary dependencies you can copy the already prepared ````testing_dependencies.gradle```` gradle file and apply it:
 ````
 apply from: '../testing_dependencies.gradle'
+````
+
+Or you can import it to your Application
+````
+dependencies {
+    //  This is required to fix databing error with Android tests
+    kaptAndroidTest "androidx.databinding:databinding-compiler:$android_gradle_plugin"
+    kaptTest "androidx.databinding:databinding-compiler:$android_gradle_plugin"
+
+    androidTestImplementation "org.mockito:mockito-android:$mockito_version"
+    androidTestUtil "androidx.test:orchestrator:$orchestrator_version"
+    androidTestImplementation "org.robolectric:annotations:$robolectric_version"
+    testImplementation "org.robolectric:robolectric:$robolectric_version"
+
+    // Once https://issuetracker.google.com/127986458 is fixed this can be testImplementation and put inside our library
+    debugImplementation "androidx.fragment:fragment-testing:$fragment_version"
+}
 ````
 
 For the Activity/Fragment that we want to test we need to create a Robot that implements `BaseRobot()`. Inside the robot we need to set up the Activity/Fragment that we want to test and need to set up the dependency injection tool that we are using to mock the necessary files.
@@ -44,9 +61,12 @@ class MainRobot : BaseRobot() {
     private val textSubTitle = MutableLiveData<String>()
 
     override fun setupInjections() {
-        setupKoinModule {
+        startKoin {
+          androidContext(ApplicationProvider.getApplicationContext())
+          modules(module {
             viewModel { viewModel }
             single { textUtil }
+            })
         }
     }
 

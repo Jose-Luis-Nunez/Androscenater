@@ -1,12 +1,17 @@
-package com.example.testingapp
+package com.example.testingapp.main
 
 import androidx.lifecycle.MutableLiveData
 import androidx.test.core.app.ActivityScenario
-import com.example.testingapp.main.MainActivity
-import com.example.testingapp.main.MainViewModel
+import androidx.test.core.app.ApplicationProvider
+import com.example.testingapp.R
+import com.example.testingapp.TextUtil
+import com.example.testingapp.stopKoin
 import com.example.testingapp.testing.ui.BaseRobot
 import org.junit.After
+import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.context.startKoin
+import org.koin.dsl.module
 import org.mockito.BDDMockito.given
 import org.mockito.BDDMockito.mock
 
@@ -21,9 +26,17 @@ class MainRobot : BaseRobot() {
     private val textSubTitle = MutableLiveData<String>()
 
     override fun setupInjections() {
-        setupKoinModule {
-            viewModel { viewModel }
-            single { textUtil }
+    // A better looking version that needs an extension function
+//        setupKoinModule {
+//            viewModel { viewModel }
+//            single { textUtil }
+//        }
+        startKoin {
+            androidContext(ApplicationProvider.getApplicationContext())
+            modules(module {
+                viewModel { viewModel }
+                single { textUtil }
+            })
         }
     }
 
@@ -65,9 +78,7 @@ class MainRobot : BaseRobot() {
     }
 
     @After
-    fun cleanup(){
+    fun cleanup() {
         stopKoin()
     }
-
-
 }

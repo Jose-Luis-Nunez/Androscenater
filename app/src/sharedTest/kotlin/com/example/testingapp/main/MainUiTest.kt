@@ -1,9 +1,10 @@
-package com.example.testingapp
+package com.example.testingapp.main
 
 import android.app.Application
 import android.os.Build
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
+import com.example.testingapp.main.MainRobot
 import com.example.testingapp.testing.ui.with
 import org.junit.Test
 import org.junit.runner.RunWith

@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import com.example.testingapp.BR
 import com.example.testingapp.R
 import com.example.testingapp.databinding.SecondFragmentBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -25,7 +24,9 @@ class SecondFragment : Fragment() {
             container,
             false
         )
-        binding.setVariable(BR.viewmodel, viewModel)
+        binding.lifecycleOwner = activity
+        binding.viewmodel=viewModel
         return binding.root
     }
+
 }

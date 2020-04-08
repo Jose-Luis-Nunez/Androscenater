@@ -2,8 +2,11 @@ package com.example.testingapp.second
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.testingapp.OpenForTest
 
+@OpenForTest
 class SecondViewModel : ViewModel() {
-    val textTitle = MutableLiveData<String>()
-    val textSubTitle = MutableLiveData<String>()
+    val textTitle = MutableLiveData<String>().apply { postValue("test") }
+
 }
+
