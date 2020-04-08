@@ -1,9 +1,10 @@
-package com.example.testingapp.testing.ui
+package com.example.testingapp
 
 import androidx.test.core.app.ApplicationProvider
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.loadKoinModules
 import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
 import org.koin.dsl.ModuleDeclaration
 import org.koin.dsl.module
 
@@ -16,4 +17,8 @@ fun setupKoinModule(moduleDeclaration: ModuleDeclaration) {
         androidContext(ApplicationProvider.getApplicationContext())
         loadKoinModules(module(moduleDeclaration = moduleDeclaration))
     }
+}
+
+fun stopKoin(){
+    stopKoin()
 }

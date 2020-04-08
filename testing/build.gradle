@@ -4,8 +4,10 @@ plugins {
     id 'kotlin-kapt'
     id 'jacoco'
     id 'kotlin-allopen'
+    id 'com.github.dcendents.android-maven'
 }
 
+group = 'com.github.katajona'
 
 android {
     compileSdkVersion 29
@@ -99,5 +101,6 @@ dependencies {
 
     // unit test
     api "org.mockito:mockito-core:$mockito_version"
-    implementation group: 'org.jetbrains.kotlin', name: 'kotlin-reflect', version: kotlin_version
+    api "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+//    api group: 'org.jetbrains.kotlin', name: 'kotlin-reflect', version: kotlin_version
 }

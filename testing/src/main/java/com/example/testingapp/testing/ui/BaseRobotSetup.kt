@@ -9,6 +9,7 @@ import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.IdlingRegistry
+import com.example.testingapp.testing.R
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.loadKoinModules
 import org.koin.core.context.startKoin
@@ -59,9 +60,12 @@ abstract class BaseRobotSetup {
     /**
      * Setting up the fragment for testing (It is not necessary to initialize an activity)
      */
-    inline fun <reified T : Fragment> setupFragmentScenario(bundle: Bundle? = null): FragmentScenario<T> {
+    inline fun <reified T : Fragment> setupFragmentScenario(
+        bundle: Bundle? = null,
+        theme: Int = R.style.Theme_AppCompat
+    ): FragmentScenario<T> {
         //Setting the theme inside this would break the roboelectric tests
-        val scenario = launchFragmentInContainer<T>(bundle)
+        val scenario = launchFragmentInContainer<T>(fragmentArgs = bundle, themeResId = theme)
 
         dataBindingIdlingResource.monitorFragment(scenario)
         return scenario
@@ -84,7 +88,6 @@ abstract class BaseRobotSetup {
     @Suppress("unused")
     fun clearTestResources() {
         unregisterIdlingResource()
-        stopKoin()
     }
 
     /**
@@ -106,7 +109,7 @@ inline fun <T : BaseRobot> T.check(func: T.() -> Unit = {}) {
     }
 }
 
-inline fun <reified R: BaseRobot> with(func: R.() -> Unit) {
+inline fun <reified R : BaseRobot> with(func: R.() -> Unit) {
     R::class.constructors.first().call().check(func)
 }
 

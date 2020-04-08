@@ -5,7 +5,7 @@ import androidx.test.core.app.ActivityScenario
 import com.example.testingapp.main.MainActivity
 import com.example.testingapp.main.MainViewModel
 import com.example.testingapp.testing.ui.BaseRobot
-import com.example.testingapp.testing.ui.setupKoinModule
+import org.junit.After
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.mockito.BDDMockito.given
 import org.mockito.BDDMockito.mock
@@ -62,6 +62,11 @@ class MainRobot : BaseRobot() {
 
     fun click() {
         clickOnView(R.id.button)
+    }
+
+    @After
+    fun cleanup(){
+        stopKoin()
     }
 
 
