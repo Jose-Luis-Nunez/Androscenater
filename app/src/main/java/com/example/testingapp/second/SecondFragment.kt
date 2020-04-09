@@ -9,10 +9,13 @@ import androidx.databinding.DataBindingUtil
 import com.example.testingapp.R
 import com.example.testingapp.databinding.SecondFragmentBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class SecondFragment : Fragment() {
 
-    private val viewModel: SecondViewModel by viewModel()
+    private val viewModel: SecondViewModel by viewModel {
+        parametersOf(arguments?.getString(KEY_TEXT))
+    }
     lateinit var binding: SecondFragmentBinding
 
     override fun onCreateView(
@@ -26,12 +29,12 @@ class SecondFragment : Fragment() {
             false
         )
         binding.lifecycleOwner = activity
-        binding.viewmodel=viewModel
+        binding.viewmodel = viewModel
         return binding.root
     }
 
     companion object {
-        private const val KEY_TEXT = "KEY_TEXT"
+        const val KEY_TEXT = "KEY_TEXT"
         fun createFragment(text: String): SecondFragment {
             val fragment = SecondFragment()
             val arguments = Bundle(1)
@@ -40,5 +43,4 @@ class SecondFragment : Fragment() {
             return fragment
         }
     }
-
 }

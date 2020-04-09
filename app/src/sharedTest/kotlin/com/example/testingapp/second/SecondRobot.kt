@@ -1,11 +1,13 @@
 package com.example.testingapp.second
 
+import android.os.Bundle
 import androidx.fragment.app.testing.FragmentScenario
 import androidx.lifecycle.MutableLiveData
 import com.example.testingapp.R
 import com.example.testingapp.setupKoinModule
 import com.example.testingapp.stopKoin
 import com.example.testingapp.testing.ui.BaseRobot
+import com.google.common.truth.Truth
 import org.junit.After
 import org.mockito.BDDMockito.given
 import org.mockito.BDDMockito.mock
@@ -19,14 +21,22 @@ class SecondRobot : BaseRobot() {
 
     private val textTitle = MutableLiveData<String>()
 
+    private val testText = "test"
+
     override fun setupInjections() {
         setupKoinModule {
-            viewModel { viewModel }
+            viewModel { (text: String) ->
+                // Testing that adding a bundle worked
+                Truth.assertThat(text).isEqualTo(testText)
+                viewModel
+            }
         }
     }
 
     override fun setupScenario() {
-        scenario = setupFragmentScenario()
+        val bundle = Bundle()
+        bundle.putString(SecondFragment.KEY_TEXT, "test");
+        scenario = setupFragmentScenario(bundle = bundle)
     }
 
     private fun mainViewModelMock(): SecondViewModel {

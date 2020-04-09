@@ -26,6 +26,7 @@ import org.mockito.BDDMockito.then
 class MainRobot : BaseRobot() {
 
     private val viewModel: MainViewModel = mainViewModelMock()
+    private val secondViewModel: SecondViewModel = mock(SecondViewModel::class.java)
     private val textUtil = textUtilMock()
 
     private lateinit var scenario: ActivityScenario<MainActivity>
@@ -38,13 +39,14 @@ class MainRobot : BaseRobot() {
 //        setupKoinModule {
 //            viewModel { viewModel }
 //            single { textUtil }
+//            viewModel { secondViewModel }
 //        }
         startKoin {
             androidContext(ApplicationProvider.getApplicationContext())
             modules(module {
                 viewModel { viewModel }
                 single { textUtil }
-                viewModel { SecondViewModel() }
+                viewModel { secondViewModel }
             })
         }
     }

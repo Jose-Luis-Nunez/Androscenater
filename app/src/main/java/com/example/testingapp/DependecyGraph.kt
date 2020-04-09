@@ -14,7 +14,7 @@ object DependencyGraph {
     private val appModule = module {
         single { get() as MyApplication }
         viewModel { MainViewModel() }
-        viewModel { SecondViewModel() }
+        viewModel { (text: String) -> SecondViewModel(text) }
         single<TextUtil> { TextUtilImpl() }
     }
 }
