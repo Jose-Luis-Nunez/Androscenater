@@ -8,6 +8,7 @@ import androidx.fragment.app.testing.FragmentScenario
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.IdlingRegistry
+import androidx.test.espresso.intent.Intents
 import com.example.testingapp.testing.R
 import org.mockito.ArgumentMatchers
 
@@ -94,8 +95,10 @@ abstract class BaseRobotSetup {
 inline fun <T : BaseRobot> T.check(func: T.() -> Unit = {}) {
     try {
         this.apply {
+            Intents.init()
             setup()
             func()
+            Intents.release()
         }
     } finally {
         clearTestResources()

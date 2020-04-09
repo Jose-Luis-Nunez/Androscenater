@@ -6,9 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".second.SecondActivity">
 
-    <fragment
-        android:id="@+id/fragment"
-        android:name="com.example.testingapp.second.SecondFragment"
+    <FrameLayout
+        android:id="@+id/details_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

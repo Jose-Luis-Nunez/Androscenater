@@ -13,6 +13,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class SecondFragment : Fragment() {
 
     private val viewModel: SecondViewModel by viewModel()
+    lateinit var binding: SecondFragmentBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,6 +28,17 @@ class SecondFragment : Fragment() {
         binding.lifecycleOwner = activity
         binding.viewmodel=viewModel
         return binding.root
+    }
+
+    companion object {
+        private const val KEY_TEXT = "KEY_TEXT"
+        fun createFragment(text: String): SecondFragment {
+            val fragment = SecondFragment()
+            val arguments = Bundle(1)
+            arguments.putString(KEY_TEXT, text)
+            fragment.arguments = arguments
+            return fragment
+        }
     }
 
 }

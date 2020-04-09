@@ -45,6 +45,7 @@ import org.hamcrest.Matcher
 import org.hamcrest.Matchers
 import androidx.test.espresso.matcher.ViewMatchers.assertThat as espressoAssertThat
 import androidx.test.espresso.intent.Intents
+import androidx.test.espresso.intent.Intents.intending
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import com.example.testingapp.testing.ui.TextViewMatcher.containsHtmlText
 

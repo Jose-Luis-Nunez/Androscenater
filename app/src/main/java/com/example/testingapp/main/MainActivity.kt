@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         binding.button.setOnClickListener {
             navigateToSecond()
         }
-        textUtil.welcomeText()
+        textUtil.welcomeText(this)
     }
 
     private fun navigateToSecond() {

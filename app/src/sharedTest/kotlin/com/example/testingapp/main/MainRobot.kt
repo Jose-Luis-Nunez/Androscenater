@@ -3,17 +3,25 @@ package com.example.testingapp.main
 import androidx.lifecycle.MutableLiveData
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.espresso.intent.Intents
 import com.example.testingapp.R
 import com.example.testingapp.TextUtil
+import com.example.testingapp.second.SecondActivity
+import com.example.testingapp.second.SecondFragment
+import com.example.testingapp.second.SecondViewModel
 import com.example.testingapp.stopKoin
+import com.example.testingapp.testing.any
 import com.example.testingapp.testing.ui.BaseRobot
 import org.junit.After
+import org.junit.Before
+import org.junit.Rule
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
 import org.mockito.BDDMockito.given
 import org.mockito.BDDMockito.mock
+import org.mockito.BDDMockito.then
 
 class MainRobot : BaseRobot() {
 
@@ -26,7 +34,7 @@ class MainRobot : BaseRobot() {
     private val textSubTitle = MutableLiveData<String>()
 
     override fun setupInjections() {
-    // A better looking version that needs an extension function
+        // A better looking version that needs an extension function
 //        setupKoinModule {
 //            viewModel { viewModel }
 //            single { textUtil }
@@ -36,6 +44,7 @@ class MainRobot : BaseRobot() {
             modules(module {
                 viewModel { viewModel }
                 single { textUtil }
+                viewModel { SecondViewModel() }
             })
         }
     }
@@ -53,7 +62,7 @@ class MainRobot : BaseRobot() {
 
     private fun textUtilMock(): TextUtil {
         val textUtil = mock(TextUtil::class.java)
-        given(textUtil.welcomeText()).will { "Mock" }
+        given(textUtil.welcomeText(any())).will { "Mock" }
         return textUtil
     }
 
@@ -73,8 +82,18 @@ class MainRobot : BaseRobot() {
         isDisplayedWithText(R.id.sub_title, message)
     }
 
+    fun verifyTextUtilCalled() {
+        scenario.onActivity {
+            then(textUtil).should().welcomeText(it)
+        }
+    }
+
     fun click() {
         clickOnView(R.id.button)
+    }
+
+    fun verifySecondActivity() {
+        hasIntentStarted(SecondActivity::class.java)
     }
 
     @After

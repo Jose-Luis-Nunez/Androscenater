@@ -1,11 +1,13 @@
 package com.example.testingapp
 
+import android.content.Context
+
 interface TextUtil {
-    fun welcomeText(): String
+    fun welcomeText(context: Context): String
 }
 
 class TextUtilImpl : TextUtil {
-    override fun welcomeText(): String {
+    override fun welcomeText(context: Context): String {
         return "Hello"
     }
 }
