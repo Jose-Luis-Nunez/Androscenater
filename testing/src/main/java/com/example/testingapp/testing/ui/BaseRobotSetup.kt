@@ -43,6 +43,12 @@ abstract class BaseRobotSetup {
      */
     abstract fun setupScenario()
 
+
+    /**
+     * Stopping the dependency injection tool
+     */
+    abstract fun stopDependencyInjection()
+
     /**
      * Idling resources tell Espresso that the app is idle or busy. This is needed when operations
      * are not scheduled in the main Looper (for example when executed on a different thread).
@@ -56,7 +62,7 @@ abstract class BaseRobotSetup {
      */
     inline fun <reified T : Fragment> setupFragmentScenario(
         bundle: Bundle? = null,
-        theme: Int = R.style.Theme_AppCompat
+        theme: Int = R.style.FragmentScenarioEmptyFragmentActivityTheme
     ): FragmentScenario<T> {
         //Setting the theme inside this would break the roboelectric tests
         val scenario = launchFragmentInContainer<T>(fragmentArgs = bundle, themeResId = theme)
@@ -77,11 +83,12 @@ abstract class BaseRobotSetup {
 
     /**
      * IS Called after each test to clear Idling Resource and to stop the
-     * current StandAlone Koin application
+     * current dependency injection tool
      */
     @Suppress("unused")
     fun clearTestResources() {
         unregisterIdlingResource()
+        stopDependencyInjection()
     }
 
     /**

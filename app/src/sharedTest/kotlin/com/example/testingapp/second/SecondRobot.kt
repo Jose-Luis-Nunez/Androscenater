@@ -33,6 +33,10 @@ class SecondRobot : BaseRobot() {
         }
     }
 
+    override fun stopDependencyInjection() {
+        stopKoin()
+    }
+
     override fun setupScenario() {
         val bundle = Bundle()
         bundle.putString(SecondFragment.KEY_TEXT, "test");

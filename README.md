@@ -74,6 +74,10 @@ class MainRobot : BaseRobot() {
         scenario = setupActivityScenario()
     }
 
+    override fun stopDependencyInjection() {
+        stopKoin()
+    }
+
     private fun mainViewModelMock(): MainViewModel {
         val viewModel = mock(MainViewModel::class.java)
         given(viewModel.textTitle).will { textTitle }
@@ -85,11 +89,6 @@ class MainRobot : BaseRobot() {
         val textUtil = mock(TextUtil::class.java)
         given(textUtil.welcomeText()).will { "Mock" }
         return textUtil
-    }
-
-    @After
-    fun cleanup(){
-        stopKoin()
     }
 }
 ````

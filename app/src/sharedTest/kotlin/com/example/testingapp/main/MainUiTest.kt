@@ -43,7 +43,7 @@ class MainUiTest {
     }
 
     @Test
-    fun button(){
+    fun button() {
         with<MainRobot> {
             click()
             verifySecondActivity()

@@ -55,6 +55,10 @@ class MainRobot : BaseRobot() {
         scenario = setupActivityScenario()
     }
 
+    override fun stopDependencyInjection() {
+        stopKoin()
+    }
+
     private fun mainViewModelMock(): MainViewModel {
         val viewModel = mock(MainViewModel::class.java)
         given(viewModel.textTitle).will { textTitle }
@@ -96,10 +100,5 @@ class MainRobot : BaseRobot() {
 
     fun verifySecondActivity() {
         hasIntentStarted(SecondActivity::class.java)
-    }
-
-    @After
-    fun cleanup() {
-        stopKoin()
     }
 }
