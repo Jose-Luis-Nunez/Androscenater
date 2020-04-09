@@ -22,7 +22,7 @@ allprojects {
 
 You can then add the library as a gradle dependency.
 ````
-androidTestImplementation 'com.github.Jose-Luis-Nunez:Android-Ui-Tester:1.0'
+androidTestImplementation 'com.github.Jose-Luis-Nunez:Android-Ui-Tester:1.0.1'
 ````
 
 If you don't want to add all the necessary dependencies you can copy the already prepared ````testing_dependencies.gradle```` gradle file and apply it:
