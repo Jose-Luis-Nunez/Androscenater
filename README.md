@@ -1,6 +1,6 @@
 # Androscenater - Android scenario tester
 
-## Thanks to [Kata Jona](https://github.com/katajona) for the collaboration
+### Thanks to [Kata Jona](https://github.com/katajona) for the collaboration
 
 This Project is an example UI test setup for Android. It can be configured to use Robolectric and Espresso at the same time. We make it easer to write UI tests with Android's new library: Activity Scenario and Fragment Scenario. The example Project is implemented with Koin, but could be replaced with other dependency injection libraries. We use the robot pattern to write easier test by having a class which contains every action which a screen could have.
 
